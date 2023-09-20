@@ -14,7 +14,7 @@ def group_execution_and_commission_by_date(exceutions:pd.DataFrame, commissions:
     Parameters:
     - exceutions (pd.DataFrame): The exceutions dataframe with transaction details.
     - commissions (pd.DataFrame): The commissions dataframe with commission details for each transaction.
-    - valid_clientId (int or str, optional): The specific ClientId for which records should be fetched. If not provided (None), records for all ClientIds are considered.
+    - valid_clientId (int or None, optional): The specific ClientId for which records should be fetched. If not provided (None), records for all ClientIds are considered.
     
     Returns:
     - dict: A dictionary with 'US/Eastern' dates as keys. Each key corresponds to a tuple of sub-dataframes:
