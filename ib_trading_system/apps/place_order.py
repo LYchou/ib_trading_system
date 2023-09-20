@@ -23,10 +23,13 @@ def main(orderInfo_list:list, port:int=7497, clientId:int=0, logfile_path:str='.
     Returns:
     - None: This function returns None.
     """
-    app = App(orderInfo_list, logfile_path, logfile_name, log_mode)
-    app.connect('127.0.0.1', port, clientId)
-    app.run()
-    placed_orders = app.get_placed_orders()
+    if orderInfo_list:
+        app = App(orderInfo_list, logfile_path, logfile_name, log_mode)
+        app.connect('127.0.0.1', port, clientId)
+        app.run()
+        placed_orders = app.get_placed_orders()
+    else:
+        placed_orders = pd.DataFrame(columns=App.record_header)
 
     return placed_orders
 
