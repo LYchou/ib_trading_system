@@ -3,7 +3,7 @@ import pytz
 import os
 
 
-def group_execution_and_commission_by_date(exceutions:pd.DataFrame, commissions:pd.DataFrame, valid_clientId:int):
+def group_execution_and_commission_by_date(exceutions:pd.DataFrame, commissions:pd.DataFrame, valid_clientId:int=None):
 
     """
     Generate a dictionary based on the US/Eastern dates in the exceutions dataframe for a specified ClientId.
@@ -14,7 +14,7 @@ def group_execution_and_commission_by_date(exceutions:pd.DataFrame, commissions:
     Parameters:
     - exceutions (pd.DataFrame): The exceutions dataframe with transaction details.
     - commissions (pd.DataFrame): The commissions dataframe with commission details for each transaction.
-    - valid_clientId (int or str): The specific ClientId for which records should be fetched.
+    - valid_clientId (int or str, optional): The specific ClientId for which records should be fetched. If not provided (None), records for all ClientIds are considered.
     
     Returns:
     - dict: A dictionary with 'US/Eastern' dates as keys. Each key corresponds to a tuple of sub-dataframes:
@@ -39,7 +39,8 @@ def group_execution_and_commission_by_date(exceutions:pd.DataFrame, commissions:
     datewise_dict = {}
     
     for group, sub_df in merged_df.groupby('Time(US/Eastern)'):
-        sub_df = sub_df[sub_df['ClientId']==valid_clientId]
+        if valid_clientId!=None:
+            sub_df = sub_df[sub_df['ClientId']==valid_clientId]
         sub_commissions = sub_df[commissions.columns].reset_index(drop=True)
         sub_exceutions = sub_df[exceutions.columns].reset_index(drop=True)
         datewise_dict[group] = (sub_exceutions, sub_commissions)
