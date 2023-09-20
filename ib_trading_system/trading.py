@@ -73,17 +73,19 @@ class Trading:
         firstRound_orderInfo_list = firstRound_orders.to_dict(orient='records')
         secondRound_ordersInfo_list = secondRound_orders.to_dict(orient='records')
 
-        main_logger.info(f'the number of first-round orders : {len(firstRound_orderInfo_list)}')
-        main_logger.info(f'the number of second-round orders : {len(secondRound_ordersInfo_list)}')
+        main_logger.info(f'The number of first-round orders : {len(firstRound_orderInfo_list)}')
+        main_logger.info(f'The number of second-round orders : {len(secondRound_ordersInfo_list)}')
         
         # Placing the first round of orders
         main_logger.info('Placing first round of orders')
         placed_orders_firstRound = self.place_order(firstRound_orderInfo_list)
+        main_logger.info(f'The number of the first round of placed orders : {len(placed_orders_firstRound)}')
 
         # Wait for 3 seconds and check if the first round orders have been successfully sent to IB
         main_logger.info('Waiting for 3 seconds to check if the first round of orders were sent to IB successfully')
         time.sleep(3)
-        self.request_openOrders()
+        openOrder, openOrderStatus = self.request_openOrders()
+        main_logger.info(f'The number of open orders is : {len(openOrder)}')
 
         # Wait until the specified time to check if all orders are executed
         main_logger.info(f'Waiting until {self.second_round_orders_sending_time} to check every second if all orders have been executed')
