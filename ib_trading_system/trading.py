@@ -85,7 +85,7 @@ class Trading:
         main_logger.info('Waiting for 3 seconds to check if the first round of orders were sent to IB successfully')
         time.sleep(3)
         openOrder, openOrderStatus = self.request_openOrders()
-        main_logger.info(f'The number of open orders is : {len(openOrder)}')
+        main_logger.info(f'The number of open orders is : {len(openOrder.drop_duplicates(subset=["PermId"], keep="last"))}')
 
         # Wait until the specified time to check if all orders are executed
         main_logger.info(f'Waiting until {self.second_round_orders_sending_time} to check every second if all orders have been executed')
