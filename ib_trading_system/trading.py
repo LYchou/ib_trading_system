@@ -68,8 +68,8 @@ class Trading:
 
         # Separate orders into first and second rounds
         firstRound_orders, secondRound_orders = utils_od.separate_orders(self.orders)
-        firstRound_orders['Tif'] = 'OPG'  # Setting time-in-force to opening price for the first round orders
-        secondRound_orders['Tif'] = 'DAY'  # Setting time-in-force to regular trading hours for the second round orders
+        firstRound_orders['Tif'] = ['OPG']*len(firstRound_orders)  # Setting time-in-force to opening price for the first round orders
+        secondRound_orders['Tif'] = ['DAY']*len(secondRound_orders)  # Setting time-in-force to regular trading hours for the second round orders
         firstRound_orderInfo_list = firstRound_orders.to_dict(orient='records')
         secondRound_ordersInfo_list = secondRound_orders.to_dict(orient='records')
 
