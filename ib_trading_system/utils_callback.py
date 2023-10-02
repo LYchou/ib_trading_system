@@ -30,10 +30,10 @@ def group_execution_and_commission_by_date(exceutions:pd.DataFrame, commissions:
     merged_df = pd.merge(exceutions, commissions, on="ExecId", how="inner")
     
     # Convert the 'Time' column to datetime format with Taipei timezone
-    merged_df['Time'] = pd.to_datetime(merged_df['Time'], utc=True).dt.tz_convert('Asia/Taipei')
+    time = pd.to_datetime(merged_df['Time']).dt.tz_localize('Asia/Taipei')
     
     # Convert the 'Time' column to 'US/Eastern' timezone and extract the date
-    merged_df['Time(US/Eastern)'] = merged_df['Time'].dt.tz_convert('US/Eastern').dt.date
+    merged_df['Time(US/Eastern)'] = time.dt.tz_convert('US/Eastern').dt.date
     
     # Group by the 'US/Eastern' date and generate the dictionary
     datewise_dict = {}
