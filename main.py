@@ -58,6 +58,14 @@ def main(orders):
         current_logger.info(f'Get the lastest date of callback. The date of callback is : {lastest_date}')
         if lastest_date==utils_time.now('US/Eastern').date():
             executions, commissions = datewise_dict[lastest_date]
+
+            # Assigned by TWS or Gateway as a unique identifier for each order.
+            # PermId remains unchanged regardless of whether an order is fully executed, partially executed, or split into multiple executions.
+            # For an order split into multiple executions, all related execution reports share the same PermId, but each will have a unique ExecId.
+            # In short, ExecId identifies the execution, while PermId identifies the order.
+            executions = executions.drop_duplicates(subset=["ExecId"], keep="last")
+            commissions = commissions.drop_duplicates(subset=["ExecId"], keep="last")
+            
             current_logger.info(f'len(executions) : {len(executions)}')
             current_logger.info(f'len(commissions) : {len(commissions)}')
 
